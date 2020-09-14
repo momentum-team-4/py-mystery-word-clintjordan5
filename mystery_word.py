@@ -29,15 +29,23 @@ level_three = [
 ]
 # 8 to 10 letters
 
+level_four = [
+    word.upper()
+    for word in text
+    if 10 <= len(word)
+]
+# 10 plus letters only
 
 def get_word_difficulty():
-    difficulty = input('Select Difficulty (1 - One, 2 - Two, 3 - Three): ')
+    difficulty = input('Select Difficulty (1 - Easy, 2 - Medium, 3 - Hard, 4 - Evil): ')
     if difficulty == '1':
         word = random.choice(level_one)
     elif difficulty == '2':
         word = random.choice(level_two)
     elif difficulty == '3':
         word = random.choice(level_three)
+    elif difficulty == '4':
+        word = random.choice(level_four)
     else:
         return get_word_difficulty
     print(f'Word has {len(word)} letters.')
@@ -54,10 +62,22 @@ def get_attempt_list(attempt_list):
     attempt = input('Choose a letter: ').upper()
     attempt_list.append(attempt)
     return attempt_list
-# able to see in output
 
+"""
+working on while loop to limit attempt to one alphanumeric letter at a time.
+If able to run, will replace above function
+"""
+    # while True:
+    #     attempt = input('Choose a letter: ').upper()
+    #     attempt_list.append(attempt)
+    # if not attempt.isalpha():
+    #     print ('Guess must be a letter')
+    # elif len(attempt) > 1:
+    #     print ('You can only guess one letter at a time')
+    # else:
+    #     return attempt_list
 
-def hangman_word(word, attempt_list):
+def mystery_word(word, attempt_list):
     return (letter if letter in attempt_list else '_' for letter in word)
 # builds the  _ _ _ _
 
@@ -76,12 +96,12 @@ def play_game(word):
     while True:
         attempts_left = 8 - len(wrong_letters(word, attempt_list))
         # takes 8 attempts and subtracts length of wrong attempts
-        print(f'Hangman: {" ".join(hangman_word(word, attempt_list))}')
+        print(f'Mystery Word: {" ".join(mystery_word(word, attempt_list))}')
         print(f'Wrong Letters: {" ".join(wrong_letters(word, attempt_list))}')
         print(f'There are {attempts_left} attempts left.')
         # can see in terminal output
 
-        if '_' not in hangman_word(word, attempt_list):
+        if '_' not in mystery_word(word, attempt_list):
             print(f'Correct, you got {word}')
             play_again()
             return
